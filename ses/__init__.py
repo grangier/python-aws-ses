@@ -7,14 +7,11 @@ import hashlib
 import urllib
 import binascii
 from lxml import objectify
-from email import Charset
 
 
 version_info = (0, 0, 1)
 __version__ =  ".".join(map(str, version_info))
 
-
-Charset.add_charset('utf-8', Charset.SHORTEST, None, 'utf-8')
 
 
 class SimpleEmailServiceError(Exception):
@@ -122,6 +119,10 @@ class SimpleEmailService(object):
     
     def __init__(self, accessKey=None, secretKey=None, 
                     host='email.us-east-1.amazonaws.com'):
+        
+        assert accessKey, '"accessKey" cannot be empty'
+        assert secretKey, '"secretKey" cannot be empty'
+        
         self.accessKey = accessKey
         self.secretKey = secretKey
         self.host = host
