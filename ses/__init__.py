@@ -298,12 +298,16 @@ class SimpleEmailService(object):
         sesReq.setParameter('Message.Body.Text.Data', Message.body)
         sesReq.setParameter('Message.Body.Text.Charset', 'utf-8')
         # html body
-        if Message.body_html:
+        if hasattr(Message, 'body_html'):
             sesReq.setParameter('Message.Body.Html.Data', Message.body_html)
             sesReq.setParameter('Message.Body.Html.Charset', 'utf-8')
         
         # send
-        print(sesReq.response())
+        response = self.processResponse(sesReq.response())
+        return {
+            'MessageId': response.SendEmailResult.MessageId,
+            'RequestId': response.ResponseMetadata.RequestId,
+        }
         
     
     

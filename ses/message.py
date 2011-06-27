@@ -11,7 +11,8 @@ class SimpleEmailServiceMessageBase(object):
     """
     
     """
-    def __init__(self, subject='', body='', from_email=None, to=None, bcc=None, headers=None, cc=None):
+    def __init__(self, subject='', body='', from_email=None, 
+                    to=None, bcc=None, headers=None, cc=None):
         """
         
         """
@@ -20,17 +21,20 @@ class SimpleEmailServiceMessageBase(object):
         assert body, '"body" cannot be empty'
         
         if to:
-            assert not isinstance(to, basestring), '"to" argument must be a list or tuple'
+            assert not isinstance(to, basestring), \
+                        '"to" argument must be a list or tuple'
             self.to = list(to)
         else:
             self.to = []
         if cc:
-            assert not isinstance(cc, basestring), '"cc" argument must be a list or tuple'
+            assert not isinstance(cc, basestring), \
+                        '"cc" argument must be a list or tuple'
             self.cc = list(cc)
         else:
             self.cc = []
         if bcc:
-            assert not isinstance(bcc, basestring), '"bcc" argument must be a list or tuple'
+            assert not isinstance(bcc, basestring), \
+                        '"bcc" argument must be a list or tuple'
             self.bcc = list(bcc)
         else:
             self.bcc = []
@@ -80,7 +84,7 @@ class SimpleEmailServiceMessage(SimpleEmailServiceMessageBase):
     
     """
     def message(self):
-        msg = MIMEText('self.body', 'plain', 'utf-8')
+        msg = MIMEText(self.body, 'plain', 'utf-8')
         return self._create_msg_headers(msg)
     
     
@@ -90,10 +94,12 @@ class SimpleEmailServiceMessage(SimpleEmailServiceMessageBase):
 class SimpleEmailServiceMessageAlternative(SimpleEmailServiceMessage):
     """
     """
-    def __init__(self, subject='', body='', from_email=None, to=None, bcc=None, headers=None, alternatives=None, cc=None):
+    def __init__(self, subject='', body='', from_email=None, 
+            to=None, bcc=None, headers=None, alternatives=None, cc=None):
         """
         """
-        super(SimpleEmailServiceMessageAlternative, self).__init__(subject, body, from_email, to, bcc, headers, cc)
+        super(SimpleEmailServiceMessageAlternative, self).\
+                __init__(subject, body, from_email, to, bcc, headers, cc)
         self.alternatives = alternatives or []
         
     
