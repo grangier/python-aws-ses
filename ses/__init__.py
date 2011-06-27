@@ -23,16 +23,6 @@ class SimpleEmailServiceError(Exception):
         self.value = value
     
     def __str__(self):
-        """
-        <ErrorResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-         <Error>
-          <Type>Sender</Type>
-          <Code>InvalidClientTokenId</Code>
-          <Message>The security token included in the request is invalid</Message>
-         </Error>
-         <RequestId>ad465a80-a058-11e0-9bdd-e31237b6830c</RequestId>
-        </ErrorResponse>
-        """
         error = objectify.fromstring(self.value['body'])
         msg = "SimpleEmailService Error: Type:%s Code: %s Message:%s Request Id: %s" % \
             (error.Error.Type, error.Error.Code, 
@@ -143,13 +133,6 @@ class SimpleEmailService(object):
         """
         Deletes the specified email address from the list 
         of verified addresses.
-        
-        HTTP Response:
-        <DeleteVerifiedEmailAddressResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <ResponseMetadata>
-            <RequestId>37ff3aef-a056-11e0-a988-819c7f065636</RequestId>
-          </ResponseMetadata>
-        </DeleteVerifiedEmailAddressResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'DELETE')
         sesReq.setParameter('Action', 'DeleteVerifiedEmailAddress')
@@ -164,18 +147,6 @@ class SimpleEmailService(object):
     def GetSendQuota(self):
         """
         Returns the user's current sending limits.
-        
-        Reponse:
-        <GetSendQuotaResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <GetSendQuotaResult>
-            <SentLast24Hours>0.0</SentLast24Hours>
-            <Max24HourSend>1000.0</Max24HourSend>
-            <MaxSendRate>1.0</MaxSendRate>
-          </GetSendQuotaResult>
-          <ResponseMetadata>
-            <RequestId>ba515dd9-a04f-11e0-9268-25f102548904</RequestId>
-          </ResponseMetadata>
-        </GetSendQuotaResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'GET')
         sesReq.setParameter('Action', 'GetSendQuota')
@@ -194,31 +165,6 @@ class SimpleEmailService(object):
         Returns the user's sending statistics. 
         The result is a list of data points, 
         representing the last two weeks of sending activity.
-        
-        Response:
-        <GetSendStatisticsResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <GetSendStatisticsResult>
-            <SendDataPoints>
-              <member>
-                <DeliveryAttempts>1</DeliveryAttempts>
-                <Timestamp>2011-06-27T01:49:00Z</Timestamp>
-                <Rejects>0</Rejects>
-                <Bounces>0</Bounces>
-                <Complaints>0</Complaints>
-              </member>
-              <member>
-                <DeliveryAttempts>2</DeliveryAttempts>
-                <Timestamp>2011-06-27T02:04:00Z</Timestamp>
-                <Rejects>0</Rejects>
-                <Bounces>0</Bounces>
-                <Complaints>0</Complaints>
-              </member>
-            </SendDataPoints>
-          </GetSendStatisticsResult>
-          <ResponseMetadata>
-            <RequestId>d9263087-a063-11e0-a423-636455206539</RequestId>
-          </ResponseMetadata>
-        </GetSendStatisticsResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'GET')
         sesReq.setParameter('Action', 'GetSendStatistics')
@@ -242,19 +188,6 @@ class SimpleEmailService(object):
         """
         Returns a list containing all of the email addresses 
         that have been verified.
-        
-        HTTP Response:
-        <ListVerifiedEmailAddressesResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <ListVerifiedEmailAddressesResult>
-            <VerifiedEmailAddresses>
-              <member>noreply@easy-cv.com</member>
-              <member>grangier@recrutae.com</member>
-            </VerifiedEmailAddresses>
-          </ListVerifiedEmailAddressesResult>
-          <ResponseMetadata>
-            <RequestId>e0f4799b-a054-11e0-b6c4-0fd9e8385919</RequestId>
-          </ResponseMetadata>
-        </ListVerifiedEmailAddressesResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'GET')
         sesReq.setParameter('Action', 'ListVerifiedEmailAddresses')
@@ -317,15 +250,6 @@ class SimpleEmailService(object):
         The SendRawEmail action is useful for sending multipart MIME emails. 
         The raw text of the message must comply with Internet email standards; 
         otherwise, the message cannot be sent.
-        
-        <SendRawEmailResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <SendRawEmailResult>
-            <MessageId>00000130d14c8ada-5ae5714d-2198-47ce-8b92-ba957036f38e-000000</MessageId>
-          </SendRawEmailResult>
-          <ResponseMetadata>
-            <RequestId>d16fc43c-a0c1-11e0-9f24-03d392bd71eb</RequestId>
-          </ResponseMetadata>
-        </SendRawEmailResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'POST')
         sesReq.setParameter('Action', 'SendRawEmail')
@@ -349,13 +273,6 @@ class SimpleEmailService(object):
         Verifies an email address. 
         This action causes a confirmation email message 
         to be sent to the specified address.
-        
-        Response :
-        <VerifyEmailAddressResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/">
-          <ResponseMetadata>
-            <RequestId>b0141ccf-a054-11e0-a9bf-a9bdbeaeeeae</RequestId>
-          </ResponseMetadata>
-        </VerifyEmailAddressResponse>
         """
         sesReq = SimpleEmailServiceRequest(self, 'GET')
         sesReq.setParameter('Action', 'VerifyEmailAddress')
