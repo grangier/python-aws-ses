@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 import os
 
-from ses import __version__
+#from ses import __version__
 
 setup(name='ses',
-    version=__version__,
+    version='0.0.1', ##__version__,
     description="Python interface to AWS SES, django AWS SES backend",
     long_description="",
     keywords='',
