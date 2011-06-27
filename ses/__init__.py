@@ -212,13 +212,16 @@ class SimpleEmailService(object):
         
         # to
         for c, to in enumerate(Message.to):
-            sesReq.setParameter('Destination.ToAddresses.member.%s' % (c + 1), to)
+            sesReq.setParameter('Destination.ToAddresses.member.%s' % \
+                (c + 1), to)
         # cc
         for c, cc in enumerate(Message.cc):
-            sesReq.setParameter('Destination.CcAddresses.member.%s' % (c + 1), cc)
+            sesReq.setParameter('Destination.CcAddresses.member.%s' % \
+                (c + 1), cc)
         # bcc
         for c, bcc in enumerate(Message.bcc):
-            sesReq.setParameter('Destination.BccAddresses.member.%s' % (c + 1), bcc)
+            sesReq.setParameter('Destination.BccAddresses.member.%s' % \
+                (c + 1), bcc)
         # replyto
         
         # from 
@@ -251,10 +254,11 @@ class SimpleEmailService(object):
         The raw text of the message must comply with Internet email standards; 
         otherwise, the message cannot be sent.
         """
+        base64_msg = binascii.b2a_base64(message_string)[:-1]
         sesReq = SimpleEmailServiceRequest(self, 'POST')
         sesReq.setParameter('Action', 'SendRawEmail')
         sesReq.setParameter('Source', from_email)
-        sesReq.setParameter('RawMessage.Data', binascii.b2a_base64(message_string)[:-1])
+        sesReq.setParameter('RawMessage.Data', base64_msg)
         for c, i in enumerate(recipients):
             sesReq.setParameter('Destinations.member.%s' % (c+1), i)
         
